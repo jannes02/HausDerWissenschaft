@@ -1,6 +1,5 @@
-from src.model.event_description import EventDescription
-from src.model.flyer_builder import FlyerBuilder
-
+from src.backend.event_description import EventDescription
+from src.backend.flyer_builder import FlyerBuilder
 
 
 if __name__ == "__main__":
@@ -8,7 +7,7 @@ if __name__ == "__main__":
     event1 = EventDescription(
         "Leibnitz-Institut für Werkstofforientierte Technologien<br/>IWT<br/>Bremen>",
         "Klausurtagung",
-    "Im rahmen der Tagung wird über Themen:<br/>  -nachhaltigkeit<br/>  -Produktion<br/>  -Optimierung<br/>gesprochen. Alles wichtige finden Sie auf unserer Website.<br/><br/>Eintritt: 7€",
+    "Im rahmen der Tagung wird<br/><br/><br/><br/><br/><br/><br/><br/> über Themen:<br/>  -nachhaltigkeit<br/>  -Produktion<br/>  -Optimierung<br/>gesprochen. Alles wichtige finden Sie auf unserer Website.<br/><br/>Eintritt: 7€",
         "12:30",
         "Sitzungsraum DG")
 

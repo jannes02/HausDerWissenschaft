@@ -7,7 +7,7 @@ from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.pdfgen import canvas
 from reportlab.platypus import Paragraph, Frame
 
-from src.model.event_description import EventDescription
+from src.backend.event_description import EventDescription
 
 # Platypus Styles
 styles = getSampleStyleSheet()
@@ -58,7 +58,7 @@ class FlyerBuilder:
         for ed in event_descriptions:
             start_height = self._build_event(ed, start_height)
 
-        if start_height > A4[0]-10 and first_run:
+        if start_height > A4[0]+10 and first_run:
             print("Recompile in A4 Format")
             self.height, self.width = A4[0], A4[1]
             self.c = canvas.Canvas(self.filename, pagesize=(self.width, self.height))
