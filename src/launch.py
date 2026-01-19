@@ -1,6 +1,10 @@
+import sys
+
+from PySide6.QtWidgets import QApplication, QWidget
+
 from src.backend.event_description import EventDescription
 from src.backend.flyer_builder import FlyerBuilder
-
+from src.frontend.main_window import MainWindow
 
 if __name__ == "__main__":
     #draw_flyer("flyer_a3.pdf")
@@ -21,3 +25,8 @@ if __name__ == "__main__":
     builder = FlyerBuilder("HDW-Flyer1.pdf")
     builder.is_debug = True
     builder.build(event_descriptions=[event1])
+
+    app = QApplication(sys.argv)
+    window = MainWindow()
+    window.show()
+    sys.exit(app.exec())
