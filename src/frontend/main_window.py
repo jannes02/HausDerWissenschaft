@@ -1,12 +1,16 @@
+import os
 import sys
 
 import PySide6
 from PySide6 import QtCore
 from PySide6.QtPdf import QPdfDocument
 from PySide6.QtPdfWidgets import QPdfView
-from PySide6.QtWidgets import QApplication, QMainWindow, QPushButton, QVBoxLayout, QScrollArea, QWidget, QSizePolicy
+from PySide6.QtPrintSupport import QPrinter, QPrintPreviewDialog
+from PySide6.QtWebEngineWidgets import QWebEngineView
+from PySide6.QtWidgets import QApplication, QMainWindow, QPushButton, QVBoxLayout, QScrollArea, QWidget, QSizePolicy, \
+    QDialog
 from PySide6.QtUiTools import QUiLoader
-from PySide6.QtCore import QFile, Qt
+from PySide6.QtCore import QFile, Qt, QUrl
 
 from src.backend.flyer_builder import FlyerBuilder
 from src.frontend.event_widget import EventWidget
@@ -43,7 +47,7 @@ class MainWindow(QMainWindow):
 
         self.pdf_widget = self.findChild(QWidget, "pdf_widget")
         self.doc = QPdfDocument(self)
-        self.doc.load("HDW-Flyer1.pdf")
+        self.doc.load("HDW-Flyer.pdf")
         self.pdf_view = QPdfView(self)
         self.pdf_view.setDocument(self.doc)
         self.pdf_view.setZoomMode(QPdfView.ZoomMode.FitInView)
@@ -54,6 +58,7 @@ class MainWindow(QMainWindow):
 
         self.btn_add_event = self.findChild(QPushButton, "btn_add_event")
         self.btn_compile = self.findChild(QPushButton, "btn_compile")
+        ui.btn_print.clicked.connect(self.print_pdf)
         self.vbox_events = self.findChild(QVBoxLayout, "vb_events")
 
         self.btn_add_event.clicked.connect(self.add_widget)
@@ -61,10 +66,16 @@ class MainWindow(QMainWindow):
 
     @QtCore.Slot()
     def add_widget(self):
-        widget = EventWidget()
+        widget = EventWidget(self)
         self.event_widgets.append(widget)
         self.vbox_events.addWidget(widget)
         print(f"Added: {widget}")
+
+    @QtCore.Slot()
+    def remove_widget(self, widget):
+        self.event_widgets.remove(widget)
+        self.vbox_events.removeWidget(widget)
+        widget.deleteLater()
 
     @QtCore.Slot()
     def compile(self):
@@ -72,11 +83,49 @@ class MainWindow(QMainWindow):
         for ew in self.event_widgets:
             events.append(ew.get_data())
 
-        builder = FlyerBuilder("HDW-Flyer1.pdf")
-        builder.is_debug = True
+        builder = FlyerBuilder("HDW-Flyer.pdf")
         builder.build(event_descriptions=events)
         self.refresh_pdf()
 
+    @QtCore.Slot()
+    def print_pdf(self):
+        events = []
+        for ew in self.event_widgets:
+            events.append(ew.get_data())
+
+        builder = FlyerBuilder("HDW-Flyer.pdf")
+        builder.build(event_descriptions=events)
+        self.refresh_pdf()
+        self.print_pdf_dialog()
+
+    def print_pdf_dialog(self):
+        # Dein PDF-Pfad
+        pdf_path = "HDW-Flyer.pdf"
+
+        # Dialog mit PDF-Vorschau erstellen
+        dialog = QDialog(self)
+        dialog.setWindowTitle("PDF Drucken")
+        dialog.resize(800, 600)
+
+        layout = QVBoxLayout(dialog)
+
+        # PDF anzeigen
+        web_view = QWebEngineView()
+        web_view.setUrl(QUrl.fromLocalFile(os.path.abspath(pdf_path)))
+        layout.addWidget(web_view)
+
+        # Druck-Button (öffnet den nativen Druckdialog)
+        btn_print = QPushButton("Druckdialog öffnen")
+        btn_print.clicked.connect(lambda: web_view.page().runJavaScript("window.print();"))
+        layout.addWidget(btn_print)
+
+        # Abbrechen-Button
+        btn_close = QPushButton("Abbrechen")
+        btn_close.clicked.connect(dialog.reject)
+        layout.addWidget(btn_close)
+
+        dialog.exec()
+
     def refresh_pdf(self):
-        self.doc.load("HDW-Flyer1.pdf")
+        self.doc.load("HDW-Flyer.pdf")
         self.pdf_view.setDocument(self.doc)

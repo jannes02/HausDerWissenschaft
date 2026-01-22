@@ -20,7 +20,7 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QGridLayout" name="gridLayout" rowstretch="1,0,0">
+   <layout class="QGridLayout" name="gridLayout" rowstretch="1,0">
     <item row="0" column="0">
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
@@ -61,15 +61,30 @@
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
        <widget class="QPushButton" name="btn_add_event">
+        <property name="maximumSize">
+         <size>
+          <width>16000000</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color: rgb(0, 170, 0);</string>
+        </property>
         <property name="text">
-         <string>Add Event</string>
+         <string>Event Hinzufügen</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="btn_compile">
+       <widget class="QPushButton" name="btn_print">
+        <property name="maximumSize">
+         <size>
+          <width>16000000</width>
+          <height>16777215</height>
+         </size>
+        </property>
         <property name="text">
-         <string>PushButton</string>
+         <string>Flyer Drucken! (F4)</string>
         </property>
        </widget>
       </item>
@@ -79,6 +94,23 @@
      <layout class="QVBoxLayout" name="verticalLayoutRight">
       <item>
        <widget class="QWidget" name="pdf_widget" native="true"/>
+      </item>
+     </layout>
+    </item>
+    <item row="1" column="1">
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QPushButton" name="btn_compile">
+        <property name="maximumSize">
+         <size>
+          <width>16000000</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>PDF Aktualisieren (F5)</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </item>
