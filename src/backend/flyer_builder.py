@@ -44,7 +44,7 @@ class FlyerBuilder:
         self.filename = output_file_name
         self.width, self.height = A3  # A3 Hochformat (842x1191 Punkte)
         self.paragraph_padding = 16
-        self.frame_top_margin = 0 #export
+        self.frame_top_margin = 8 #export
         self.c = canvas.Canvas(self.filename, pagesize=A3)
         self.is_debug = False
 
@@ -113,7 +113,7 @@ class FlyerBuilder:
         start_height -= title_height + self.frame_top_margin
         frame_title = Frame(50, start_height, self.width - 100, title_height, showBoundary=self.is_debug, topPadding=0)
 
-        start_height -= description_height + self.frame_top_margin
+        start_height -= description_height + self.frame_top_margin + 10
         frame_description = Frame(50, start_height, (self.width - 100) * 3 / 4, description_height, showBoundary=self.is_debug)
         frame_location = Frame(self.width - 50 - ((self.width - 100) * 1 / 4), start_height, (self.width - 100) * 1 / 4,
                                location_height, showBoundary=self.is_debug)
