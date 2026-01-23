@@ -2,6 +2,7 @@ import os
 import sys
 
 import PySide6
+import win32api
 from PySide6 import QtCore
 from PySide6.QtPdf import QPdfDocument
 from PySide6.QtPdfWidgets import QPdfView
@@ -99,32 +100,13 @@ class MainWindow(QMainWindow):
         self.print_pdf_dialog()
 
     def print_pdf_dialog(self):
-        # Dein PDF-Pfad
-        pdf_path = "HDW-Flyer.pdf"
-
-        # Dialog mit PDF-Vorschau erstellen
-        dialog = QDialog(self)
-        dialog.setWindowTitle("PDF Drucken")
-        dialog.resize(800, 600)
-
-        layout = QVBoxLayout(dialog)
-
-        # PDF anzeigen
-        web_view = QWebEngineView()
-        web_view.setUrl(QUrl.fromLocalFile(os.path.abspath(pdf_path)))
-        layout.addWidget(web_view)
-
-        # Druck-Button (öffnet den nativen Druckdialog)
-        btn_print = QPushButton("Druckdialog öffnen")
-        btn_print.clicked.connect(lambda: web_view.page().runJavaScript("window.print();"))
-        layout.addWidget(btn_print)
-
-        # Abbrechen-Button
-        btn_close = QPushButton("Abbrechen")
-        btn_close.clicked.connect(dialog.reject)
-        layout.addWidget(btn_close)
-
-        dialog.exec()
+        sumatra_path = "..\\rsc\\SumatraPDF.exe"
+        win32api.ShellExecute(
+            0, None,
+            sumatra_path,
+            '-print-dialog "HDW-Flyer.pdf"',
+            None, 1
+        )
 
     def refresh_pdf(self):
         self.doc.load("HDW-Flyer.pdf")
