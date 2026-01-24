@@ -40,7 +40,7 @@
            <x>0</x>
            <y>0</y>
            <width>752</width>
-           <height>743</height>
+           <height>733</height>
           </rect>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -49,6 +49,35 @@
             <property name="sizeConstraint">
              <enum>QLayout::SizeConstraint::SetDefaultConstraint</enum>
             </property>
+            <item>
+             <layout class="QHBoxLayout" name="vb_placeholder">
+              <item>
+               <widget class="QLabel" name="lbl_placeholder">
+                <property name="enabled">
+                 <bool>true</bool>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>20</pointsize>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="autoFillBackground">
+                 <bool>false</bool>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">color: rgb(0, 130, 0);</string>
+                </property>
+                <property name="text">
+                 <string>Drücke &quot;STRG +&quot; um ein Event hinzuzudügen</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignmentFlag::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
            </layout>
           </item>
          </layout>
@@ -61,6 +90,18 @@
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
        <widget class="QPushButton" name="btn_add_event">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>32</height>
+         </size>
+        </property>
         <property name="maximumSize">
          <size>
           <width>16000000</width>
@@ -68,15 +109,27 @@
          </size>
         </property>
         <property name="styleSheet">
-         <string notr="true">color: rgb(0, 170, 0);</string>
+         <string notr="true">color: rgb(0, 130, 0);</string>
         </property>
         <property name="text">
-         <string>Event Hinzufügen</string>
+         <string>Event Hinzufügen (STRG +)</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="btn_print">
+       <widget class="QPushButton" name="btn_compile">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>32</height>
+         </size>
+        </property>
         <property name="maximumSize">
          <size>
           <width>16000000</width>
@@ -84,7 +137,7 @@
          </size>
         </property>
         <property name="text">
-         <string>Flyer Drucken! (F4)</string>
+         <string>PDF Aktualisieren (F5)</string>
         </property>
        </widget>
       </item>
@@ -100,17 +153,52 @@
     <item row="1" column="1">
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
-       <widget class="QPushButton" name="btn_compile">
-        <property name="maximumSize">
-         <size>
-          <width>16000000</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>PDF Aktualisieren (F5)</string>
-        </property>
-       </widget>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QPushButton" name="btn_export">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Exportieren (STRG+E)</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btn_print">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16000000</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Flyer Drucken! (STRG+P)</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
      </layout>
     </item>

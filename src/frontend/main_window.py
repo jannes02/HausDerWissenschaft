@@ -4,12 +4,13 @@ import sys
 import PySide6
 import win32api
 from PySide6 import QtCore
+from PySide6.QtGui import QShortcut, QKeySequence
 from PySide6.QtPdf import QPdfDocument
 from PySide6.QtPdfWidgets import QPdfView
 from PySide6.QtPrintSupport import QPrinter, QPrintPreviewDialog
 from PySide6.QtWebEngineWidgets import QWebEngineView
 from PySide6.QtWidgets import QApplication, QMainWindow, QPushButton, QVBoxLayout, QScrollArea, QWidget, QSizePolicy, \
-    QDialog
+    QDialog, QHBoxLayout, QLabel
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtCore import QFile, Qt, QUrl
 
@@ -59,24 +60,39 @@ class MainWindow(QMainWindow):
 
         self.btn_add_event = self.findChild(QPushButton, "btn_add_event")
         self.btn_compile = self.findChild(QPushButton, "btn_compile")
+        self.findChild(QPushButton, "btn_export").clicked.connect(self.export_pdf)
         ui.btn_print.clicked.connect(self.print_pdf)
         self.vbox_events = self.findChild(QVBoxLayout, "vb_events")
 
         self.btn_add_event.clicked.connect(self.add_widget)
         self.btn_compile.clicked.connect(self.compile)
 
+        self.sc_export = QShortcut(QKeySequence("Ctrl+E"), self)
+        self.sc_export.activated.connect(self.export_pdf)
+
+        self.sc_add = QShortcut(QKeySequence("Ctrl++"), self)
+        self.sc_add.activated.connect(self.add_widget)
+
+        self.sc_refresh = QShortcut(QKeySequence("F5"), self)
+        self.sc_refresh.activated.connect(self.compile)
+
+        self.sc_print = QShortcut(QKeySequence("Ctrl+P"), self)
+        self.sc_print.activated.connect(self.print_pdf)
+
     @QtCore.Slot()
     def add_widget(self):
         widget = EventWidget(self)
         self.event_widgets.append(widget)
         self.vbox_events.addWidget(widget)
-        print(f"Added: {widget}")
+        self.findChild(QLabel, "lbl_placeholder").setVisible(False)
 
     @QtCore.Slot()
     def remove_widget(self, widget):
         self.event_widgets.remove(widget)
         self.vbox_events.removeWidget(widget)
         widget.deleteLater()
+        if len(self.event_widgets) == 0:
+            self.findChild(QLabel, "lbl_placeholder").setVisible(True)
 
     @QtCore.Slot()
     def compile(self):
@@ -90,13 +106,7 @@ class MainWindow(QMainWindow):
 
     @QtCore.Slot()
     def print_pdf(self):
-        events = []
-        for ew in self.event_widgets:
-            events.append(ew.get_data())
-
-        builder = FlyerBuilder("HDW-Flyer.pdf")
-        builder.build(event_descriptions=events)
-        self.refresh_pdf()
+        self.compile()
         self.print_pdf_dialog()
 
     def print_pdf_dialog(self):
@@ -104,7 +114,21 @@ class MainWindow(QMainWindow):
         win32api.ShellExecute(
             0, None,
             sumatra_path,
-            '-print-dialog "HDW-Flyer.pdf"',
+            '-print-dialog "HDW-Flyer.pdf" -exit-when-done',
+            None, 1
+        )
+
+    @QtCore.Slot()
+    def export_pdf(self):
+        self.compile()
+        self.export_pdf_dialog()
+
+    def export_pdf_dialog(self):
+        sumatra_path = "..\\rsc\\SumatraPDF.exe"
+        win32api.ShellExecute(
+            0, None,
+            sumatra_path,
+            '-print-to "Microsoft Print to PDF" "HDW-Flyer.pdf"',
             None, 1
         )
 

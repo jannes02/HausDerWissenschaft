@@ -24,6 +24,19 @@ class EventWidget(QWidget):
 
         ui.btn_remove.clicked.connect(lambda: parent.remove_widget(self))
 
+        self.le_title = self.findChild(QLineEdit, "le_title")
+        self.le_host = self.findChild(QLineEdit, "le_host")
+        self.le_time = self.findChild(QLineEdit, "le_time")
+        self.cb_location = self.findChild(AdvancedQComboBox, "cb_location")
+        self.te_description = self.findChild(QTextEdit, "te_description")
+
+        self.le_title.editingFinished.connect(parent.compile)
+        self.le_host.editingFinished.connect(parent.compile)
+        self.le_time.editingFinished.connect(parent.compile)
+        self.cb_location.currentTextChanged.connect(parent.compile)
+        self.te_description.textChanged.connect(parent.compile)
+
+
 
 
     def get_data(self):
