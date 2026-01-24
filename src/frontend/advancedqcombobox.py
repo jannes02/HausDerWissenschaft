@@ -5,13 +5,15 @@ from msilib.text import dirname
 from PySide6 import QtCore
 from PySide6.QtWidgets import QComboBox, QApplication
 
+from src import rsc_path
+
 
 class AdvancedQComboBox(QComboBox):
     def __init__(self, *args, **kwargs):
         QComboBox.__init__(self, *args, **kwargs)
         self.activated.connect(self.choose)
         self.dirname = os.path.dirname(__file__)
-        with open(os.path.join(self.dirname, "rooms.json"), 'r') as f:
+        with open(os.path.join(self.dirname, rsc_path("persistence/rooms.json")), 'r') as f:
             file = f.read()
         self.buffered_items = json.loads(file)
         self.clear()
@@ -22,5 +24,5 @@ class AdvancedQComboBox(QComboBox):
         items = [self.itemText(i) for i in range(self.count())]
         output = json.dumps(items)
         if output != self.buffered_items:
-            with open(os.path.join(self.dirname, "rooms.json"), 'w') as f:
+            with open(os.path.join(self.dirname, rsc_path("persistence/rooms.json")), 'w') as f:
                 f.write(output)
