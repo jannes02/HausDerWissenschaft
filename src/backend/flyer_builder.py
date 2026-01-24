@@ -136,34 +136,3 @@ class FlyerBuilder:
         frame_location.addFromList([location], self.c)
 
         return start_height
-
-    def print_with_dialog(self):
-        """Nutzt den 'Print to PDF'-Treiber, um Dialog zu erzwingen"""
-
-        # Finde 'Microsoft Print to PDF' Treiber
-        printers = [p[2] for p in win32print.EnumPrinters(
-            win32print.PRINTER_ENUM_LOCAL | win32print.PRINTER_ENUM_CONNECTIONS)]
-
-        pdf_printer = None
-        for p in printers:
-            if "Microsoft Print to PDF" in p:
-                pdf_printer = p
-                break
-
-        if not pdf_printer:
-            print("❌ Microsoft Print to PDF nicht gefunden")
-            return
-
-        try:
-            win32api.ShellExecute(
-                0,
-                "printto",
-                "HDW-Flyer.pdf",
-                f'"{pdf_printer}"',  # Parameter zeigen Dialog an
-                None,
-                0
-            )
-            print("✓ Druckdialog (als PDF) wurde geöffnet")
-        except Exception as e:
-            print(f"❌ Fehler: {e}")
-

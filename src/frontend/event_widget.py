@@ -2,6 +2,7 @@ from PySide6 import QtCore
 from PySide6.QtCore import QFile
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QComboBox, QLineEdit, QTextEdit
 
+from src import rsc_path
 from src.backend.event_description import EventDescription
 from src.frontend.advancedqcombobox import AdvancedQComboBox
 from src.frontend.custom_ui_loader import CustomUiLoader
@@ -12,7 +13,7 @@ class EventWidget(QWidget):
         super().__init__(parent)
 
         loader = CustomUiLoader()
-        file = QFile("frontend/event_widget.ui")
+        file = QFile(rsc_path("ui/event_widget.ui"))
         file.open(QFile.ReadOnly)
         ui = loader.load(file, self)
         file.close()

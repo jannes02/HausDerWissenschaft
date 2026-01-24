@@ -14,6 +14,7 @@ from PySide6.QtWidgets import QApplication, QMainWindow, QPushButton, QVBoxLayou
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtCore import QFile, Qt, QUrl
 
+from src import rsc_path
 from src.backend.flyer_builder import FlyerBuilder
 from src.frontend.event_widget import EventWidget
 
@@ -29,7 +30,8 @@ class MainWindow(QMainWindow):
         self.event_widgets = []
 
         loader = QUiLoader()
-        file = QFile("frontend/main_window.ui")
+        file = QFile(rsc_path("ui/main_window.ui"))
+        print(rsc_path("ui/main_window.ui"))
         file.open(QFile.ReadOnly)
         ui = loader.load(file)
         file.close()
@@ -49,7 +51,7 @@ class MainWindow(QMainWindow):
 
         self.pdf_widget = self.findChild(QWidget, "pdf_widget")
         self.doc = QPdfDocument(self)
-        self.doc.load("HDW-Flyer.pdf")
+        self.doc.load(rsc_path("pdf/HDW-Flyer.pdf"))
         self.pdf_view = QPdfView(self)
         self.pdf_view.setDocument(self.doc)
         self.pdf_view.setZoomMode(QPdfView.ZoomMode.FitInView)
@@ -100,7 +102,7 @@ class MainWindow(QMainWindow):
         for ew in self.event_widgets:
             events.append(ew.get_data())
 
-        builder = FlyerBuilder("HDW-Flyer.pdf")
+        builder = FlyerBuilder(rsc_path("pdf/HDW-Flyer.pdf"))
         builder.build(event_descriptions=events)
         self.refresh_pdf()
 
@@ -110,11 +112,11 @@ class MainWindow(QMainWindow):
         self.print_pdf_dialog()
 
     def print_pdf_dialog(self):
-        sumatra_path = "..\\rsc\\SumatraPDF.exe"
+        sumatra_path = rsc_path("sumatra/SumatraPDF.exe")
         win32api.ShellExecute(
             0, None,
             sumatra_path,
-            '-print-dialog "HDW-Flyer.pdf" -exit-when-done',
+            f'-print-dialog "{rsc_path("pdf/HDW-Flyer.pdf")}" -exit-when-done',
             None, 1
         )
 
@@ -124,14 +126,14 @@ class MainWindow(QMainWindow):
         self.export_pdf_dialog()
 
     def export_pdf_dialog(self):
-        sumatra_path = "..\\rsc\\SumatraPDF.exe"
+        sumatra_path = rsc_path("sumatra/SumatraPDF.exe")
         win32api.ShellExecute(
             0, None,
             sumatra_path,
-            '-print-to "Microsoft Print to PDF" "HDW-Flyer.pdf"',
+            f'-print-to "Microsoft Print to PDF" "{rsc_path("pdf/HDW-Flyer.pdf")}"',
             None, 1
         )
 
     def refresh_pdf(self):
-        self.doc.load("HDW-Flyer.pdf")
+        self.doc.load(rsc_path("pdf/HDW-Flyer.pdf"))
         self.pdf_view.setDocument(self.doc)
