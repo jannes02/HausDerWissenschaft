@@ -6,7 +6,6 @@ name = "pypi"
 [packages]
 reportlab = "*"
 pyside6 = "*"
-pywin32 = "*"
 
 [dev-packages]
 pyinstaller = "*"

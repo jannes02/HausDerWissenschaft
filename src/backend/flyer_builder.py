@@ -1,7 +1,4 @@
 from typing import List
-
-import win32api
-import win32print
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_RIGHT
 from reportlab.lib.pagesizes import A3, A4

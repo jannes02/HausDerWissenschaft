@@ -1,20 +1,15 @@
-import os
+import subprocess
 import sys
 
-import PySide6
-import win32api
 from PySide6 import QtCore
 from PySide6.QtGui import QShortcut, QKeySequence
 from PySide6.QtPdf import QPdfDocument
 from PySide6.QtPdfWidgets import QPdfView
-from PySide6.QtPrintSupport import QPrinter, QPrintPreviewDialog
-from PySide6.QtWebEngineWidgets import QWebEngineView
-from PySide6.QtWidgets import QApplication, QMainWindow, QPushButton, QVBoxLayout, QScrollArea, QWidget, QSizePolicy, \
-    QDialog, QHBoxLayout, QLabel
+from PySide6.QtWidgets import QApplication, QMainWindow, QPushButton, QVBoxLayout, QWidget, QSizePolicy, QLabel
 from PySide6.QtUiTools import QUiLoader
-from PySide6.QtCore import QFile, Qt, QUrl
+from PySide6.QtCore import QFile, Qt
 
-from src import rsc_path
+from rsc_path import rsc_path
 from src.backend.flyer_builder import FlyerBuilder
 from src.frontend.event_widget import EventWidget
 
@@ -113,12 +108,12 @@ class MainWindow(QMainWindow):
 
     def print_pdf_dialog(self):
         sumatra_path = rsc_path("sumatra/SumatraPDF.exe")
-        win32api.ShellExecute(
-            0, None,
+        subprocess.Popen([
             sumatra_path,
-            f'-print-dialog "{rsc_path("pdf/HDW-Flyer.pdf")}" -exit-when-done',
-            None, 1
-        )
+            "-print-dialog",
+            rsc_path("pdf/HDW-Flyer.pdf"),
+            "-exit-when-done"
+        ])
 
     @QtCore.Slot()
     def export_pdf(self):
@@ -127,12 +122,18 @@ class MainWindow(QMainWindow):
 
     def export_pdf_dialog(self):
         sumatra_path = rsc_path("sumatra/SumatraPDF.exe")
-        win32api.ShellExecute(
-            0, None,
+        # win32api.ShellExecute(
+        #     0, None,
+        #     sumatra_path,
+        #     f'-print-to "Microsoft Print to PDF" "{rsc_path("pdf/HDW-Flyer.pdf")}"',
+        #     None, 1
+        # )
+        subprocess.Popen([
             sumatra_path,
-            f'-print-to "Microsoft Print to PDF" "{rsc_path("pdf/HDW-Flyer.pdf")}"',
-            None, 1
-        )
+            "-print-to",
+            'Microsoft Print to PDF',
+            rsc_path("pdf/HDW-Flyer.pdf")
+        ])
 
     def refresh_pdf(self):
         self.doc.load(rsc_path("pdf/HDW-Flyer.pdf"))

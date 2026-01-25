@@ -1,11 +1,10 @@
 import json
 import os
-from msilib.text import dirname
 
 from PySide6 import QtCore
-from PySide6.QtWidgets import QComboBox, QApplication
+from PySide6.QtWidgets import QComboBox
 
-from src import rsc_path
+from rsc_path import rsc_path
 
 
 class AdvancedQComboBox(QComboBox):

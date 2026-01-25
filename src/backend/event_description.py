@@ -1,5 +1,3 @@
-from reportlab.platypus import Frame
-from reportlab.lib.pagesizes import A3
 
 
 class EventDescription:

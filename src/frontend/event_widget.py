@@ -1,8 +1,7 @@
-from PySide6 import QtCore
 from PySide6.QtCore import QFile
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QComboBox, QLineEdit, QTextEdit
 
-from src import rsc_path
+from rsc_path import rsc_path
 from src.backend.event_description import EventDescription
 from src.frontend.advancedqcombobox import AdvancedQComboBox
 from src.frontend.custom_ui_loader import CustomUiLoader
