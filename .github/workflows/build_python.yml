@@ -34,7 +34,7 @@ jobs:
         pipenv run pyinstaller launch.spec
     - name: Zip Binaries
       run: |
-        Comress-Archive -Path dist/launch/* -Destination Flyer-Builder_Windows-AMD64.zip
+        Compress-Archive -Path dist/launch/* -Destination Flyer-Builder_Windows-AMD64.zip
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
