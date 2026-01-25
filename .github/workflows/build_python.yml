@@ -32,14 +32,17 @@ jobs:
     - name: Build for Windows
       run: |
         pipenv run pyinstaller launch.spec
-    - name: Zip Binaries
-      run: |
-        Compress-Archive -Path dist/launch/* -Destination Flyer-Builder_Windows-AMD64.zip
+    - name: Build Installer
+      uses: Minionguyjpro/Inno-Setup-Action@v1.2.2
+      with:
+        path: installer.iss
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
         name: Windows-exe
-        path: Flyer-Builder_Windows-AMD64.zip
+        path: Output/*
+   
+        
     # - name: Lint with flake8
     #   run: |
     #     # stop the build if there are Python syntax errors or undefined names
