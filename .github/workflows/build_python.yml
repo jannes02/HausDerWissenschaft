@@ -39,7 +39,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: Windows-exe
-        path: flyer-builder.zip
+        path: Flyer-Builder_Windows-AMD64.zip
     # - name: Lint with flake8
     #   run: |
     #     # stop the build if there are Python syntax errors or undefined names
