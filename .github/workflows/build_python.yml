@@ -33,9 +33,8 @@ jobs:
       run: |
         pipenv run pyinstaller launch.spec
     - name: Zip Binaries
-      uses: montudor/action-zip@v1
-      with:
-        args: zip -qq -r flyer-builder.zip -d dist/launch
+      run: |
+        Comress-Archive -Path dist/launch/* -Destination Flyer-Builder_Windows-AMD64.zip
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
