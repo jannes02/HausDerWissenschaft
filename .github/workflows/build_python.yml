@@ -31,7 +31,7 @@ jobs:
         pipenv install -d
     - name: Build for Windows
       run: |
-        pyinstaller launch.spec
+        pipenv run pyinstaller launch.spec
     - name: Zip Binaries
       uses: montudor/action-zip@v1
       with:
