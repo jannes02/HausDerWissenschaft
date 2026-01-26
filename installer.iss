@@ -1,6 +1,12 @@
+#define MyAppVersion GetEnv("VERSION")
+
+#if MyAppVersion == ""
+  #define MyAppVersion "0.0.0-dev"
+#endif
+
+
 [Setup]
 AppName=HdW Flyer Creator
-#define MyAppVersion GetEnv("VERSION")
 AppVersion={#MyAppVersion}
 OutputBaseFilename=FlyerCreator_{#MyAppVersion}_Setup
 DefaultGroupName=Haus der Wissenschaft
