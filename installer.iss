@@ -1,8 +1,9 @@
 [Setup]
 AppName=HdW Flyer Creator
-AppVersion=1.0.0
+#define MyAppVersion GetEnv("VERSION")
+AppVersion={#MyAppVersion}
+OutputBaseFilename=FlyerCreator_{#MyAppVersion}_Setup
 DefaultGroupName=Haus der Wissenschaft
-OutputBaseFilename=HausDerWissenschaft_Setup
 SetupIconFile=rsc\icons\app.ico
 Compression=lzma
 SolidCompression=yes
