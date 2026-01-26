@@ -45,6 +45,7 @@ jobs:
       uses: Minionguyjpro/Inno-Setup-Action@v1.2.2
       with:
         path: installer.iss
+        options: /DVERSION=%VERSION%
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:

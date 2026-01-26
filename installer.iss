@@ -1,7 +1,5 @@
-#define MyAppVersion GetEnv("VERSION")
-
-#if MyAppVersion == ""
-  #define MyAppVersion "0.0.0-dev"
+#ifndef VERSION
+  #define VERSION "0.0.0-dev"
 #endif
 
 
