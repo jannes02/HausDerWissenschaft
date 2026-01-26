@@ -1,4 +1,5 @@
-#ifndef VERSION
+#if VERSION == ""
+  #undef VERSION
   #define VERSION "0.0.0-dev"
 #endif
 
