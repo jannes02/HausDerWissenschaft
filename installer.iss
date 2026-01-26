@@ -2,6 +2,8 @@
   #define VERSION "0.0.0-dev"
 #endif
 
+#define MyAppVersion VERSION
+
 
 [Setup]
 AppName=HdW Flyer Creator
