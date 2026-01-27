@@ -1,11 +1,13 @@
 import subprocess
 import sys
+from datetime import datetime
 
 from PySide6 import QtCore
 from PySide6.QtGui import QShortcut, QKeySequence
 from PySide6.QtPdf import QPdfDocument
 from PySide6.QtPdfWidgets import QPdfView
-from PySide6.QtWidgets import QApplication, QMainWindow, QPushButton, QVBoxLayout, QWidget, QSizePolicy, QLabel
+from PySide6.QtWidgets import QApplication, QMainWindow, QPushButton, QVBoxLayout, QWidget, QSizePolicy, QLabel, \
+    QLineEdit
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtCore import QFile, Qt
 
@@ -64,6 +66,11 @@ class MainWindow(QMainWindow):
         self.btn_add_event.clicked.connect(self.add_widget)
         self.btn_compile.clicked.connect(self.compile)
 
+        self.le_title = self.findChild(QLineEdit, "le_title")
+        self.le_title.setText("Heute im Haus")
+        self.le_date = self.findChild(QLineEdit, "le_date")
+        self.le_date.setText(datetime.today().strftime("%d.%m.%Y"))
+
         self.sc_export = QShortcut(QKeySequence("Ctrl+E"), self)
         self.sc_export.activated.connect(self.export_pdf)
 
@@ -98,7 +105,9 @@ class MainWindow(QMainWindow):
             events.append(ew.get_data())
 
         builder = FlyerBuilder(rsc_path("pdf/HDW-Flyer.pdf"))
-        builder.build(event_descriptions=events)
+        builder.build(event_descriptions=events,
+                      title=self.le_title.text(),
+                      date=self.le_date.text())
         self.refresh_pdf()
 
     @QtCore.Slot()

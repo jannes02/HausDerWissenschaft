@@ -2,10 +2,10 @@ import sys
 import os
 from pathlib import Path
 
-LAUNCH_MODE = "production" #"dev" "portable"
+LAUNCH_MODE = "prod" #"dev" "portable"
 
 def rsc_path(relative_path: str) -> str:
-    if LAUNCH_MODE == "production":
+    if LAUNCH_MODE == "prod":
         base_path = Path(os.environ["APPDATA"]) / "HausDerWissenschaft"
     elif getattr(sys, "frozen", False):
         base_path = sys._MEIPASS   # PyInstaller Temp-Dir
