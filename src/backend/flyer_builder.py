@@ -45,6 +45,7 @@ class FlyerBuilder:
         self.paragraph_padding = 16
         self.frame_top_margin = 8 #export
         self.c = canvas.Canvas(self.filename, pagesize=A3)
+        self.last_line = 0.0
         self.is_debug = False
 
     def build(self,title="Heute im Haus", date="", event_descriptions:List[EventDescription]=None, first_run=True) -> int:
@@ -57,12 +58,23 @@ class FlyerBuilder:
         for ed in event_descriptions:
             start_height = self._build_event(ed, start_height)
 
-        if start_height > A4[0]+10 and first_run:
-            print("Recompile in A4 Format")
-            self.height, self.width = A4[0], A4[1]
-            self.c = canvas.Canvas(self.filename, pagesize=(self.width, self.height))
-            exit_code = self.build(title=title, date=date, event_descriptions=event_descriptions, first_run=False)
-            return exit_code
+        if first_run:
+
+            print(self.last_line)
+
+            if start_height > A4[0] + 10:
+                print("Recompile in A4 Format")
+                self.frame_top_margin = self.last_line/40 if self.last_line  > 760 else 8
+                self.height, self.width = A4[0], A4[1]
+                self.c = canvas.Canvas(self.filename, pagesize=(self.width, self.height))
+                self.build(title=title, date=date, event_descriptions=event_descriptions, first_run=False)
+                return 0
+            else:
+                self.frame_top_margin = self.last_line/20 if self.last_line  > (A3[0]/3) else 8
+                self.c = canvas.Canvas(self.filename, pagesize=(self.width, self.height))
+                self.build(title=title, date=date, event_descriptions=event_descriptions, first_run=False)
+                return 0
+
 
         self.c.showPage()
         self.c.save()
@@ -117,12 +129,12 @@ class FlyerBuilder:
         frame_location = Frame(self.width - 50 - ((self.width - 100) * 1 / 4), start_height, (self.width - 100) * 1 / 4,
                                location_height, showBoundary=self.is_debug)
 
-        print(f"Letzte Linie:{start_height}, Gesamthöhe: {A3[1]}, A4: {A4[0]}")
-
         start_height -= self.frame_top_margin
         self.c.setStrokeColor(colors.red)
         self.c.setLineWidth(5)
         self.c.line(50, start_height, self.width - 50, start_height)
+
+        self.last_line = start_height
 
         self.c.setStrokeColor(colors.black)
         self.c.setLineWidth(1)
